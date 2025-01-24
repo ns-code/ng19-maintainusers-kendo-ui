@@ -1,0 +1,17 @@
+.user-form {
+    width: 60%;
+    margin-left: 20%;
+  }
+
+  mat-form-field {
+    width: 60%;
+    height: 70px;
+  }
+
+  .mdc-button {
+    float: none;
+  }
+
+  .mdc-button:hover {
+    background-color: rgb(233, 96, 171);
+  }

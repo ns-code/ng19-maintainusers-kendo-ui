@@ -1,0 +1,26 @@
+<div class="example-wrap">
+    <h3>Maintain Users</h3>
+    <button mat-flat-button class="ns-btn" type="button" routerLink="/add-user">Add User</button>
+    <span>&nbsp; &nbsp;</span>
+    <button mat-flat-button class="ns-btn" type="button" (click)="deleteSelectedIds()">Delete selected User/s</button>
+
+    <kendo-grid id="maintainUsersGrid" [data]="users()" class="custom-grid" [pageSize]="pageSize" [skip]="skip"
+        [pageable]="true" (pageChange)="pageChange($event)" [sortable]="true" [sort]="sortDescriptor"
+        (sortChange)="handleSortChange($event)" [height]="400">
+        <kendo-grid-column field="userId" title="User ID" filter="boolean" headerClass="custom-grid-header">
+            <ng-template kendoGridCellTemplate let-user>
+                <input type="checkbox" [value]="user.userId" (change)="onCheckboxChange($event, user.userId!)">
+                &nbsp;
+                <a routerLink="/users/:{{ user.userId }}" class="hvrPtr">
+                    <img width="21px" height="23px" src="./assets/pencil.png">
+                </a>
+            </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="userName" title="User Name" headerClass="custom-grid-header"></kendo-grid-column>
+        <kendo-grid-column field="firstName" title="First Name" headerClass="custom-grid-header"></kendo-grid-column>
+        <kendo-grid-column field="lastName" title="Last Name" headerClass="custom-grid-header"></kendo-grid-column>
+        <kendo-grid-column field="email" title="Email" headerClass="custom-grid-header"></kendo-grid-column>
+        <kendo-grid-column field="userStatus" title="User Status" headerClass="custom-grid-header"></kendo-grid-column>
+        <kendo-grid-column field="department" title="Department" headerClass="custom-grid-header"></kendo-grid-column>
+    </kendo-grid>
+</div>

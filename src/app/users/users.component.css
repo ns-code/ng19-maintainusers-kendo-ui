@@ -1,0 +1,75 @@
+button {
+    margin-bottom: 6px;
+}
+
+mat-grid-list {
+    width: 80%;
+}
+
+mat-grid-tile {
+    background: lightblue;
+    border: 1;
+}
+
+.flat-button {
+    border: 1;
+    border-color: black;
+    border-radius: 6px;
+    background: rgb(238, 177, 230);
+}
+
+.hvrPtr:hover {
+    cursor: pointer;
+}
+
+.hdrRow {
+    font-weight: 600;
+}
+
+.errmsg {
+    color: red;
+}
+
+.user-form {
+    width: 60%;
+    margin-left: 20%;
+}
+
+mat-form-field {
+    width: 60%;
+    height: 70px;
+}
+.example-wrap {
+    width: 70%;
+    margin-top: 50px;
+    margin-left: 100px;
+} 
+
+.mdc-button {
+    float: none;
+    border: 2px;
+}
+
+.mdc-button:hover {
+    background-color: rgb(233, 96, 171);
+}
+
+.ns-btn {
+    border: 2px solid blue !important;
+}
+
+.custom-grid {
+    border-color: #00f;
+}
+.custom-grid .custom-grid-header {
+    font-weight: bold;
+    color: #f00;
+    background: #ff0;
+    font-style: italic;
+}
+.custom-combobox {
+    font-size: 12px;
+    color: #00f;
+    font-weight: bold;
+    border-color: #00f;
+}

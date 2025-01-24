@@ -1,0 +1,69 @@
+
+<div class="example-wrap">
+  <form class="k-form k-form-md" [formGroup]="form" (ngSubmit)="onUserFormSubmit()">
+    <div class="errmsg">{{ appDataStateService.addUserError() }}</div>
+    <fieldset class="k-form-fieldset">
+      <!-- <legend class="k-form-legend"> -->
+      <h2>{{ formAction }} User</h2>
+      <!-- </legend> -->
+      <kendo-formfield>
+        <kendo-label labelCssClass="k-form-label" [for]="userName" text="User Name"></kendo-label>
+        <kendo-textbox formControlName="userName" #userName required></kendo-textbox>
+
+        <kendo-formhint>User name</kendo-formhint>
+        <kendo-formerror *ngIf="form.get('userName')?.hasError('required')">Error: Username is
+          required</kendo-formerror>
+        <kendo-formerror *ngIf="form.get('userName')?.hasError('minlength')">User Name must be atleast 3
+          chars</kendo-formerror>
+      </kendo-formfield>
+      <kendo-formfield>
+        <kendo-label labelCssClass="k-form-label" [for]="firstName" text="First Name"></kendo-label>
+        <kendo-textbox formControlName="firstName" #firstName></kendo-textbox>
+        <kendo-formhint>First name</kendo-formhint>
+        <kendo-formerror *ngIf="form.get('firstName')?.hasError('required')">Error: First name is
+          required</kendo-formerror>
+        <kendo-formerror *ngIf="form.get('firstName')?.hasError('minlength')">First Name must be atleast 3
+          chars</kendo-formerror>
+      </kendo-formfield>
+      <kendo-formfield>
+        <kendo-label labelCssClass="k-form-label" [for]="lastName" text="Last Name"></kendo-label>
+        <kendo-textbox formControlName="lastName" #lastName></kendo-textbox>
+        <!-- <kendo-formhint>Last name</kendo-formhint> -->
+        <kendo-formerror *ngIf="form.get('lastName')?.hasError('required')">Error: Last name is
+          required</kendo-formerror>
+        <kendo-formerror *ngIf="form.get('lastName')?.hasError('minlength')">Last Name must be atleast 3
+          chars</kendo-formerror>
+      </kendo-formfield>
+
+      <kendo-formfield>
+        <kendo-label labelCssClass="k-form-label" [for]="email" text="Email"></kendo-label>
+        <kendo-textbox formControlName="email" #email></kendo-textbox>
+        <kendo-formhint>Email</kendo-formhint>
+        <kendo-formerror *ngIf="form.get('email')?.hasError('required')">Error: Email is
+          required</kendo-formerror>
+        <kendo-formerror *ngIf="form.get('email')?.hasError('email')">Please enter a valid email address</kendo-formerror>
+      </kendo-formfield>
+
+      <!-- <kendo-formfield> -->
+      <kendo-label text="User Status"></kendo-label>
+      <br />
+      <kendo-dropdownlist [data]="userStatuses" textField="label" valueField="value" [valuePrimitive]="true"
+        [(value)]="selectedUserStatus">
+      </kendo-dropdownlist>
+
+      <!-- </kendo-formfield> -->
+
+      <kendo-formfield>
+        <kendo-label labelCssClass="k-form-label" [for]="department" text="Department"></kendo-label>
+        <kendo-textbox formControlName="department" #department required></kendo-textbox>
+      </kendo-formfield>
+
+
+      <div class="k-form-buttons">
+        <button mat-flat-button class="ns-btn" type="submit">{{ formAction }} User</button> &nbsp;
+        <button mat-flat-button class="ns-btn" type="button" (click)="resetForm()">Reset</button> &nbsp;
+        <button mat-flat-button class="ns-btn" type="button" routerLink="/users">Cancel</button>
+      </div>
+    </fieldset>
+  </form>
+</div>

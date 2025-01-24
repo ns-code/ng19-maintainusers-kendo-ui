@@ -1,0 +1,6 @@
+ng add @angular/material
+npm i -g typings
+ng add @angular/localize
+/public/assets/pencil.png
+ng add @progress/kendo-angular-grid
+encapsulation: ViewEncapsulation.None
