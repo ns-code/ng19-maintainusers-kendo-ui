@@ -21,4 +21,4 @@ With the above-mentioned API server running, run 'ng serve'. The app can then be
 
 ## Screenshots
 
-https://github.com/ns-code/ng18-maintainusers-refactored/wiki/Screenshots
+https://github.com/ns-code/ng19-maintainusers-kendo-ui/wiki/Screenshots
