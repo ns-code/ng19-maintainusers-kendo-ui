@@ -8,9 +8,9 @@ import { AddUserComponent } from './add-user.component';
 import { StateMgmtService } from '../service/state-mgmt.service';
 import { UsersComponent } from '../users.component';
 import { UsersService } from '../service/users.service';
-import { UsersResolver } from '../service/resolvers/users.resolver';
-import { StateMgmtMockService } from '../service/state-mgmt-mock.service';
+import { UsersResolver } from '../service/resolvers/users.resolver'
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { MockUsersService } from '../service/mock-users.service';
 
 
 export const waitUntil = async (untilTruthy: Function): Promise<boolean> => {
@@ -24,7 +24,7 @@ describe('Test Add User', () => {
   // let service: StateMgmtService;
   let router: Router;
   let appDataStateService: StateMgmtService;
-  let usersService: UsersService;
+  let usersService: MockUsersService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,12 +37,13 @@ describe('Test Add User', () => {
         { path: 'add-user', component: AddUserComponent }
       ])],
       providers: [provideHttpClient(), provideHttpClientTesting(), provideAnimations(),
-      { provide: StateMgmtService, useClass: StateMgmtMockService },
-      { provide: UsersResolver, useClass: UsersResolver },
+        { provide: UsersService, useClass: MockUsersService },
+        { provide: StateMgmtService, useClass: StateMgmtService },
+        { provide: UsersResolver, useClass: UsersResolver },
       ],
     });
     TestBed.inject(UsersResolver);
-    usersService = TestBed.inject(UsersService);
+    usersService = TestBed.inject(MockUsersService);
     appDataStateService = TestBed.inject(StateMgmtService);
     router = TestBed.inject(Router);
   });
@@ -58,6 +59,7 @@ describe('Test Add User', () => {
     // Given: n users in DB
     // appDataStateService.loadUsers();
     // tick(1000);
+    appDataStateService.loadUsers();
     let dbUsersCountBefAdd = appDataStateService.users().length;
     console.log(">> dbUsersCountBefAdd: ", dbUsersCountBefAdd)
 
@@ -66,6 +68,7 @@ describe('Test Add User', () => {
     addUserComponentInstance.handleFormSubmission(newUser);
 
     // Then: the users list count should have n+1
+    appDataStateService.loadUsers();
     usersComponentInstance.ngOnInit();
     expect(usersComponentInstance.users().length).toEqual(dbUsersCountBefAdd + 1);
   }));

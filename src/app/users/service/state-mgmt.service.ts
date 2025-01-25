@@ -65,10 +65,6 @@ export class StateMgmtService {
             next: (res: User) => {
                 this.currentAppState.set(AppState.USER_ADD_SUCCESS);
                 console.log(">> created user: ", res.userId);
-                this.users.update(u => {
-                    u.push(res);
-                    return u;
-                });
                 this.router.navigate(['/users']);
             },
             error: (err: HttpErrorResponse) => {

@@ -7,14 +7,14 @@ import { StateMgmtService } from '../service/state-mgmt.service';
 import { UsersService } from '../service/users.service';
 import { UsersComponent } from '../users.component';
 import { UsersResolver } from '../service/resolvers/users.resolver';
-import { StateMgmtMockService } from '../service/state-mgmt-mock.service';
 import { UpdateUserResolver } from '../service/resolvers/update-user.resolver';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { MockUsersService } from '../service/mock-users.service';
 
 describe('Test Update User', () => {
   let router: Router;
   let appDataStateService: StateMgmtService;
-  let usersService: UsersService;
+  let usersService: MockUsersService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -29,13 +29,13 @@ describe('Test Update User', () => {
   }},
       ])],
       providers: [provideHttpClient(), provideHttpClientTesting(), provideAnimations(),
-      { provide: UsersService, useClass: UsersService },
-      { provide: StateMgmtService, useClass: StateMgmtMockService },
-      { provide: UsersResolver, useClass: UsersResolver },
+        { provide: UsersService, useClass: MockUsersService },
+        { provide: StateMgmtService, useClass: StateMgmtService },
+        { provide: UsersResolver, useClass: UsersResolver },
       ],
     });
     TestBed.inject(UsersResolver);
-    usersService = TestBed.inject(UsersService);
+    usersService = TestBed.inject(MockUsersService);
     appDataStateService = TestBed.inject(StateMgmtService);
     router = TestBed.inject(Router);
   });
@@ -49,13 +49,16 @@ describe('Test Update User', () => {
     const usersComponentInstance = usersComponent.componentInstance;
 
     // Given: a selected user
-    let toUpdateUser = appDataStateService.users().find(u => u.userName === 'user1')!;
+    appDataStateService.loadUsers();
+    usersComponentInstance.ngOnInit();
+    let toUpdateUser = usersComponentInstance.users().find(u => u.userName === 'user1')!;
 
     // When: properties updated and form submitted
     toUpdateUser.email = 'updEmail@TestBed.com';
     updateUserComponentInstance.handleFormSubmission(toUpdateUser);
 
     // Then: the users list count should have the user with updated properties
+    appDataStateService.loadUsers();
     usersComponentInstance.ngOnInit();
     const updatedUser = usersComponentInstance.users().find(u => u.userName === 'user1');
     expect(updatedUser?.email).toEqual('updEmail@TestBed.com');

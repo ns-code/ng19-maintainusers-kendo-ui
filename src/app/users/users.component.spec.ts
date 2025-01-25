@@ -8,7 +8,7 @@ import { UsersComponent } from './users.component';
 import { UsersService } from './service/users.service';
 import { interval, take } from 'rxjs';
 import { UsersResolver } from './service/resolvers/users.resolver';
-import { StateMgmtMockService } from './service/state-mgmt-mock.service';
+import { MockUsersService } from './service/mock-users.service';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 export const waitUntil = async (untilTruthy: Function): Promise<boolean> => {
@@ -22,7 +22,7 @@ describe('Test List Users', () => {
   // let service: StateMgmtService;
   let router: Router;
   let appDataStateService: StateMgmtService;
-  let usersService: UsersService;
+  let usersService: MockUsersService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -34,21 +34,23 @@ describe('Test List Users', () => {
         },
       ])],
       providers: [provideHttpClient(), provideHttpClientTesting(), provideAnimations(),
-      { provide: StateMgmtService, useClass: StateMgmtMockService },
-      { provide: UsersResolver, useClass: UsersResolver },
+        { provide: UsersService, useClass: MockUsersService },
+        { provide: StateMgmtService, useClass: StateMgmtService },
+        { provide: UsersResolver, useClass: UsersResolver },
       ],
     });
     TestBed.inject(UsersResolver);
-    usersService = TestBed.inject(UsersService);
+    usersService = TestBed.inject(MockUsersService);
     appDataStateService = TestBed.inject(StateMgmtService);
     router = TestBed.inject(Router);
-  });
+  })
 
   it('should list all users in DB', fakeAsync (() => {
     const usersComponent = TestBed.createComponent(UsersComponent);
     const usersComponentInstance = usersComponent.componentInstance;
 
     // Given: n users in DB
+    appDataStateService.loadUsers();
     const dbUsersCount = appDataStateService.users().length;
 
     // When: loadusers called on the component
@@ -61,13 +63,14 @@ describe('Test List Users', () => {
   it('should delete selected users in DB', fakeAsync(async () => {
     const usersComponent = TestBed.createComponent(UsersComponent);
     const usersComponentInstance = usersComponent.componentInstance;
+    usersComponentInstance.ngOnInit();
 
     // Given: m users in DB
-    let dbUsersCountBeforeDel = appDataStateService.users().length;
+    appDataStateService.loadUsers();
+    let dbUsersCountBeforeDel = usersComponentInstance.users().length;
     console.log(">>> dbUsersCountBeforeDel: ", dbUsersCountBeforeDel);
 
     // When n users selected for deletion
-    usersComponentInstance.ngOnInit();
     usersComponentInstance.toDeleteIds.add(2n);
     usersComponentInstance.toDeleteIds.add(3n);
     const selCount = usersComponentInstance.toDeleteIds.size;        
